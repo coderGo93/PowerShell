@@ -294,9 +294,10 @@ namespace Nutanix.Powershell.Cmdlets
                 }
                 Pipeline.Prepend(HttpPipelinePrepend);
                 Pipeline.Append(HttpPipelineAppend);
+                bool doMultipleCalls = false;
 
                 if (Credential == null) {
-
+                    doMultipleCalls = true;
                     if (Port == null){
                         Port = System.Environment.GetEnvironmentVariable("NutanixPort") ?? "9440";
                     }
@@ -332,10 +333,29 @@ namespace Nutanix.Powershell.Cmdlets
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
 
                 // if neither length nor offset is given, get every instance on the account
-                if (Length == 0 && Offset == 0) {
-                    await this.Client.ListAllVms(GetEntitiesRequest, onOK2, onDefault, this, Pipeline, Credential);
-                } else {
-                    await this.Client.GetVms(GetEntitiesRequest, onOK, onDefault, this, Pipeline, Credential);
+                if (Length == 0 && Offset == 0)
+                {
+                    if (doMultipleCalls)
+                    {
+                        foreach (Nutanix.Powershell.Models.NutanixCredential cred in Nutanix.Powershell.Models.NutanixCredential.Sessions)
+                        {
+                            await this.Client.ListAllVms(GetEntitiesRequest, onOK2, onDefault, this, Pipeline, cred);
+                        }
+                    }
+                    else
+                        await this.Client.ListAllVms(GetEntitiesRequest, onOK2, onDefault, this, Pipeline, Credential);
+                }
+                else
+                {
+                    if (doMultipleCalls)
+                    {
+                        foreach (Nutanix.Powershell.Models.NutanixCredential cred in Nutanix.Powershell.Models.NutanixCredential.Sessions)
+                        {
+                            await this.Client.GetVms(GetEntitiesRequest, onOK, onDefault, this, Pipeline, cred);
+                        }
+                    }
+                    else
+                        await this.Client.GetVms(GetEntitiesRequest, onOK, onDefault, this, Pipeline, Credential);
                 }
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletAfterAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
             }

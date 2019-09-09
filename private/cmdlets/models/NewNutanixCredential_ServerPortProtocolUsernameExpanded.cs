@@ -83,7 +83,7 @@ namespace Nutanix.Powershell.ModelCmdlets
         protected override void ProcessRecord()
         {
 
-            var _uri = new System.Uri($"{_credential.Protocol ?? "http" }://{_credential.Server}:{_credential.Port ?? "80" }");
+            var _uri = new System.Uri($"{_credential.Protocol ?? "https" }://{_credential.Server}:{_credential.Port ?? "9440" }");
             _credential.Uri = _uri;
             WriteObject(_credential);
         }

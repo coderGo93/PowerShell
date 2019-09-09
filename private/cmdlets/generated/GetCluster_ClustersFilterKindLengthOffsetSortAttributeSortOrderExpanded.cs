@@ -354,6 +354,8 @@ namespace Nutanix.Powershell.Cmdlets
         /// </returns>
         private async System.Threading.Tasks.Task onDefault(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IClusterStatus> response)
         {
+            WriteObject("onDefault");
+            WriteObject(responseMessage);
             using( NoSynchronizationContext )
             {
                 // Error Response : default
@@ -369,6 +371,8 @@ namespace Nutanix.Powershell.Cmdlets
         /// </returns>
         private async System.Threading.Tasks.Task onOK(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IClusterListIntentResponse> response)
         {
+            WriteObject("onOK");
+            WriteObject(responseMessage);
             using( NoSynchronizationContext )
             {
                 // onOK - response for 200 / application/json
