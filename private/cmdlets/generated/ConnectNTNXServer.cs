@@ -58,7 +58,7 @@ namespace Nutanix.Powershell.ModelCmdlets
         private PSCredential _PSCredential;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
-        public PSCredential PSCredential
+        public PSCredential Credential
         {
             set
             {
@@ -74,13 +74,22 @@ namespace Nutanix.Powershell.ModelCmdlets
         private bool _skip_ssl;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
-        public System.Management.Automation.SwitchParameter SkipSSL { get; set; }
+        public System.Management.Automation.SwitchParameter IgnoreSSLErrors { get; set; }
 
         /// <summary>Performs execution of the command.</summary>
 
         protected override void ProcessRecord()
         {
-            
+            if(Protocol == null)
+                Protocol = "https";
+            if(IgnoreSSLErrors == null)
+                IgnoreSSLErrors = false;
+            if(Port == null)
+                Port = "9440";
+            SessionState.PSVariable.Set("Protocol", Protocol);
+            SessionState.PSVariable.Set("IgnoreSSLErrors", IgnoreSSLErrors);
+            SessionState.PSVariable.Set("Port", Port);
+            SessionState.PSVariable.Set("Credential", Credential);
         }
     }
 }
