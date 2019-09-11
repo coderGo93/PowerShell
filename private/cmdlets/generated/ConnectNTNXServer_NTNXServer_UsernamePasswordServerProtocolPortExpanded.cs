@@ -57,7 +57,7 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         private PSCredential _PSCredential;
         /// <summary>HELP MESSAGE MISSING</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
+        [System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
         public PSCredential Credential
         {
             set
@@ -90,6 +90,7 @@ namespace Nutanix.Powershell.ModelCmdlets
             SessionState.PSVariable.Set("IgnoreSSLErrors", IgnoreSSLErrors);
             SessionState.PSVariable.Set("Port", Port);
             SessionState.PSVariable.Set("Credential", Credential);
+            WriteObject(_PSCredential);
         }
     }
 }

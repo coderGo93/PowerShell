@@ -331,7 +331,6 @@ namespace Nutanix.Powershell.Cmdlets
 
                 // get the client instance
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-
                 // if neither length nor offset is given, get every instance on the account
                 if (Length == 0 && Offset == 0)
                 {
