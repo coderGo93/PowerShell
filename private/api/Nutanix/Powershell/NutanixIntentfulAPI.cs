@@ -5110,6 +5110,7 @@ namespace Nutanix.Powershell
                 // generate request object
                 var request =  new System.Net.Http.HttpRequestMessage(Microsoft.Rest.ClientRuntime.Method.Post, _url);
                 var byteArray = System.Text.Encoding.ASCII.GetBytes($"{credential.PSCredential.UserName}:{CreateString(credential.PSCredential.Password)}");
+                System.Console.WriteLine(System.Convert.ToBase64String(byteArray));
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", System.Convert.ToBase64String(byteArray));
                 await eventListener.Signal(Microsoft.Rest.ClientRuntime.Events.RequestCreated, _url); if( eventListener.Token.IsCancellationRequested ) { return; }
 
