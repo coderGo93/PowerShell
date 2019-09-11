@@ -5,11 +5,11 @@ namespace Nutanix.Powershell.ModelCmdlets
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="Disk" /> object.
     /// </summary>
-    [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.Set, @"ConnectNTNXServer_UsernamePasswordServerProtocolPortExpanded")]
+    [System.Management.Automation.Cmdlet("Connect", @"NTNXServer_UsernamePasswordServerProtocolPortExpanded")]
     [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
     public class ConnectNTNXServer_UsernamePasswordServerProtocolPortExpanded : System.Management.Automation.PSCmdlet
     {
-      
+
         private string _server;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
@@ -19,7 +19,7 @@ namespace Nutanix.Powershell.ModelCmdlets
             {
                 _server = value;
             }
-            get 
+            get
             {
                 return _server;
             }
@@ -34,7 +34,7 @@ namespace Nutanix.Powershell.ModelCmdlets
             {
                 _port = value;
             }
-            get 
+            get
             {
                 return _port;
             }
