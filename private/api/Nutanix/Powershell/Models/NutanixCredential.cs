@@ -1,7 +1,6 @@
 using System;
 using System.Management.Automation;
 using System.Security;
-using System.Collections.Generic;
 
 namespace Nutanix.Powershell.Models
 {
@@ -13,7 +12,7 @@ namespace Nutanix.Powershell.Models
         public PSCredential PSCredential { get; set; }
         protected internal string Username { get; set; }
         protected internal SecureString Password { set; get; }
-        protected internal static List<NutanixCredential> Sessions = new List<NutanixCredential>();        private Uri _serverUri;
+        private Uri _serverUri;
         public Uri Uri
         {
             get

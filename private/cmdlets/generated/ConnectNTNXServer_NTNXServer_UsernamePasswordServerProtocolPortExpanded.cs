@@ -1,6 +1,7 @@
 namespace Nutanix.Powershell.ModelCmdlets
 {
     using System.Management.Automation;
+    using System.Collections.Generic;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="Disk" /> object.
@@ -55,18 +56,18 @@ namespace Nutanix.Powershell.ModelCmdlets
             }
         }
 
-        private PSCredential _PSCredential;
+        private Nutanix.Powershell.Models.NutanixCredential _credential;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
-        public PSCredential Credential
+        public Nutanix.Powershell.Models.NutanixCredential Credential
         {
             set
             {
-                _PSCredential = value;
+                _credential = value;
             }
             get
             {
-                return _PSCredential;
+                return _credential;
             }
         }
 
@@ -80,17 +81,21 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            if(Protocol == null)
-                Protocol = "https";
-            if(IgnoreSSLErrors == null)
+            if (Protocol == null)
+                Protocol = _credential.Protocol ?? "https";
+            if (IgnoreSSLErrors == null)
                 IgnoreSSLErrors = false;
-            if(Port == null)
-                Port = "9440";
-            SessionState.PSVariable.Set("Protocol", Protocol);
-            SessionState.PSVariable.Set("IgnoreSSLErrors", IgnoreSSLErrors);
-            SessionState.PSVariable.Set("Port", Port);
-            SessionState.PSVariable.Set("Credential", Credential);
-            WriteObject(_PSCredential);
+            if (Port == null)
+                Port = _credential.Port ?? "9440";
+            if (Server == null)
+                Server = _credential.Server ?? "";
+            _credential.Protocol = Protocol;
+            _credential.Port = Port;
+            _credential.Server = Server;
+            SessionState.PSVariable.Set("Global:NTNXConnection", _credential);
+            SessionState.PSVariable.Set("Global:IgnoreSSLErrors", IgnoreSSLErrors);
+
+            WriteObject(_credential);
         }
     }
 }

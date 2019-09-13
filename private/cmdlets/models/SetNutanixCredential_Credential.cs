@@ -40,11 +40,11 @@ namespace Nutanix.Powershell.ModelCmdlets
                 {
                     intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(_credential.PSCredential.Password);
                     result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
-                    var indexCred = Nutanix.Powershell.Models.NutanixCredential.Sessions.FindIndex( cred => cred.PSCredential.UserName == _credential.PSCredential.UserName);
+                    /*var indexCred = Nutanix.Powershell.Models.NutanixCredential.Sessions.FindIndex( cred => cred.PSCredential.UserName == _credential.PSCredential.UserName);
                     if(indexCred == -1)
                         Nutanix.Powershell.Models.NutanixCredential.Sessions.Add(_credential);
                     else
-                        Nutanix.Powershell.Models.NutanixCredential.Sessions[indexCred] = _credential;
+                        Nutanix.Powershell.Models.NutanixCredential.Sessions[indexCred] = _credential;*/
                 }
                 finally
                 {
