@@ -12,7 +12,7 @@ Describe 'New-NutanixCredential Tests' {
         $credential.Protocol | Should -be "https"
         $credential.Uri.ToString() | Should -be "https://localhost:9440/"
 
-        Set-NutanixCredential -Credential $credential
+        Connect-NTNXServer -Credential $credential
 
         $env:NutanixServer | Should -be "localhost"
         $env:NutanixUsername | Should -be "admin"
@@ -20,17 +20,15 @@ Describe 'New-NutanixCredential Tests' {
     }
 }
 
-Describe "Set-NutanixCredential Tests" {
-    It "Should set the credentials to the environment" {
+Describe "Connect-NTNXServer Tests" {
+    It "Should set the credentials to the Session PSVariable" {
         $credential = New-NutanixCredential -Username admin -Password Password -ServerUri https://localhost:9440
 
-        Set-NutanixCredential -Credential $credential
+        Connect-NTNXServer -Credential $credential
 
         $env:NutanixServer | Should -be "localhost"
         $env:NutanixUsername | Should -be "admin"
         $env:NutanixPassword | Should -be "Password"
-        $env:NutanixProtocol | Should -be "https"
-        $env:NutanixPort | Should -be "9440"
     }
 }
 

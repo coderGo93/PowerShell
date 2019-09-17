@@ -10,15 +10,12 @@ param(
 
 Import-Module -Name .\Nutanix.psd1
 
+$secureStringPwd = $passwd | ConvertTo-SecureString -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential -ArgumentList $user, $secureStringPwd
 
-$credentials = New-NutanixCredential `
-    -password $passwd `
-    -username $user `
-    -port $port `
-    -server $server `
-    -protocol $protocol 
+$credentials = New-NutanixCredential -PSCredential $creds  -server $server
 
-Set-NutanixCredential -Credential $credentials
+Connect-NTNXServer -Credential $credentials
 $env:ClusterID = $clusterID  
 
 Invoke-Pester -Path ".\tests\integration\*.Tests.ps1" -CodeCoverage ".\exported\*Subnet*.ps1" 
