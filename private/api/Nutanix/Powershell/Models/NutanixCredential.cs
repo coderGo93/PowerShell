@@ -13,6 +13,7 @@ namespace Nutanix.Powershell.Models
         protected internal string Username { get; set; }
         protected internal SecureString Password { set; get; }
         private Uri _serverUri;
+        public bool IgnoreSSLErrors { get; set; }
         public Uri Uri
         {
             get

@@ -70,7 +70,7 @@ NestedModules = @('./bin/Nutanix.private.dll',
                'Nutanix.psm1')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Connect-NTNXServer' ,'Get-CategoryKey', 'Get-CategoryValue', 'Get-Cluster', 
+FunctionsToExport = 'Connect-Server' ,'Get-CategoryKey', 'Get-CategoryValue', 'Get-Cluster', 
                'Get-EntityByCategory', 'Get-Image', 'Get-SecurityRule', 'Get-Subnet', 
                'Get-Task', 'Get-TaskList', 'Get-Vm', 'Invoke-SecurityNetwork', 
                'New-AccessControlPolicyListMetadataObject', 'New-AddressObject', 

@@ -234,6 +234,7 @@ namespace Nutanix.Powershell.Cmdlets
             ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletProcessRecordStart).Wait(); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
             try
             {
+                NTNXConnection = (Nutanix.Powershell.Models.NutanixCredential)SessionState.PSVariable.GetValue("Global:NTNXConnection");
                 // work
                 if (ShouldProcess($"Call remote 'listClusters' operation"))
                 {
@@ -270,7 +271,7 @@ namespace Nutanix.Powershell.Cmdlets
             using (NoSynchronizationContext)
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
-                if (SkipSSL.ToBool() || SessionState.PSVariable.GetValue("IgnoreSSLErrors") != null)
+                if (SkipSSL.ToBool() || !NTNXConnection.IgnoreSSLErrors)
                 {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
                 }
@@ -281,7 +282,6 @@ namespace Nutanix.Powershell.Cmdlets
                 Pipeline.Prepend(HttpPipelinePrepend);
                 Pipeline.Append(HttpPipelineAppend);
                 // get the client instance
-                NTNXConnection = (Nutanix.Powershell.Models.NutanixCredential)SessionState.PSVariable.GetValue("Global:NTNXConnection");
                 if (Credential == null)
                 {
                     if (Port == null)
@@ -355,8 +355,226 @@ namespace Nutanix.Powershell.Cmdlets
             {
                 // onOK - response for 200 / application/json
                 // (await response) // should be Nutanix.Powershell.Models.IClusterListIntentResponse
-                WriteObject(await response);
+                var resultBody = new System.Text.StringBuilder();
+                var cont = 1;
+                var properties = new System.Collections.Generic.List<PropertyInformation>();
+                foreach (var entity in response.Result.Entities)
+                {
+                    if (!(entity.Metadata.Uuid is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "uuid";
+                        property.Value = entity.Metadata.Uuid;
+                        properties.Add(property);
+                        property.Name = "clusterUuid";
+                        property.Value = entity.Metadata.Uuid;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Name is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "name";
+                        property.Value = entity.Spec.Name;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.ExternalIp is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "clusterExternalIPAddress";
+                        property.Value = entity.Spec.Resources.Network.ExternalIp;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.ExternalDataServicesIp is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "clusterExternalDataServicesIPAddress";
+                        property.Value = entity.Spec.Resources.Network.ExternalDataServicesIp;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.MasqueradingIp is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "clusterMasqueradingIPAddress";
+                        property.Value = entity.Spec.Resources.Network.MasqueradingIp;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.MasqueradingPort is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "clusterMasqueradingPort";
+                        property.Value = entity.Spec.Resources.Network.MasqueradingPort;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.Timezone is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "timezone";
+                        property.Value = entity.Spec.Resources.Config.Timezone;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Status.Resources.Config.SupportedInformationVerbosity is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "supportVerbosityType";
+                        property.Value = entity.Status.Resources.Config.SupportedInformationVerbosity;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.OperationMode is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "operationMode";
+                        property.Value = entity.Spec.Resources.Config.OperationMode;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.EncryptionStatus is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "encrypted";
+                        property.Value = entity.Spec.Resources.Config.EncryptionStatus;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Status.Resources.Config.Build.Version is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "version";
+                        property.Value = entity.Status.Resources.Config.Build.Version;
+                        properties.Add(property);
+                        property.Name = "targetVersion";
+                        property.Value = entity.Status.Resources.Config.Build.Version;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Status.Resources.Config.Build.FullVersion is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "fullVersion";
+                        property.Value = entity.Status.Resources.Config.Build.FullVersion;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.ExternalSubnet is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "externalSubnet";
+                        property.Value = entity.Spec.Resources.Network.ExternalSubnet;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.InternalSubnet is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "internalSubnet";
+                        property.Value = entity.Spec.Resources.Network.InternalSubnet;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.SoftwareMap is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "sofwareMap";
+                        property.Value = entity.Spec.Resources.Config.SoftwareMap;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.EnabledFeatureList is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "enabledFeatureList";
+                        property.Value = entity.Spec.Resources.Config.EnabledFeatureList;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.NameServerIpList is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "nameServers";
+                        property.Value = entity.Spec.Resources.Network.NameServerIpList;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Network.NtpServerIpList is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "ntpServers";
+                        property.Value = "{" + System.String.Join(",", entity.Spec.Resources.Network.NtpServerIpList) + "}";
+                        properties.Add(property);
+                    }
+                    var hypervisorTypes = new System.Text.StringBuilder();
+                    if (!(entity.Status.Resources.Nodes is null))
+                    {
+                        foreach (var hypervisor in entity.Status.Resources.Nodes.HypervisorServerList)
+                        {
+                            hypervisorTypes.Append(hypervisor.Type + ",");
+                        }
+                        var property = new PropertyInformation();
+                        property.Name = "hypervisorTypes";
+                        property.Value = "{" + hypervisorTypes + "}";
+                        properties.Add(property);
+                    }
+                    if (!(entity.Status.Resources.Config.ClusterArch is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "clusterArch";
+                        property.Value = entity.Status.Resources.Config.ClusterArch;
+                        properties.Add(property);
+                    }
+                    //resultBody.Append("isSspEnabled : " + entity.Spec.Name + "\n");
+                    if (!(entity.Spec.Resources.Network.DomainServer is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "domain";
+                        property.Value = entity.Spec.Resources.Network.DomainServer.Name;
+                        properties.Add(property);
+                    }
+                    if (!(entity.Spec.Resources.Config.GpuDriverVersion is null))
+                    {
+                        var property = new PropertyInformation();
+                        property.Name = "gpuDriverVersion";
+                        property.Value = entity.Spec.Resources.Config.GpuDriverVersion;
+                        properties.Add(property);
+                    }
+                    cont++;
+                }
+                WriteObject(properties);
             }
+        }
+        private class PropertyInformation
+        {
+            public string Name { get; set; }
+            public object Value { get; set; }
+        }
+
+        private static void ReadPropertiesRecursive(object obj, string body, System.Collections.Generic.List<System.Type> visited)
+        {
+            try
+            {
+                var type = obj.GetType();
+                System.Text.StringBuilder result = new System.Text.StringBuilder(body);
+                foreach (System.Reflection.PropertyInfo property in type.GetProperties())
+                {
+                    if (property.PropertyType == typeof(string) || property.PropertyType == typeof(int) || property.PropertyType == typeof(bool))
+                        result.Append(property.Name + ":" + property.GetValue(obj));
+                    else if (property.PropertyType.IsArray && !result.ToString().Contains(property.GetValue(obj).ToString()))
+                    {
+                        System.Array arra = (System.Array)property.GetValue(obj);
+                        System.Console.WriteLine("isarray invoked");
+                        //System.Console.WriteLine(property.Name + ":::" + property.GetValue(obj, null));
+                        foreach (var arr in arra)
+                        {
+                            System.Console.WriteLine(property.Name + ":::" + property.GetValue(arr, null));
+                            System.Console.WriteLine(arr);
+                            ReadPropertiesRecursive(arra.GetType(), result.ToString(), visited);
+                        }
+                        visited.Add(property.PropertyType);
+                        //ReadPropertiesRecursive(property.GetValue(obj), result.ToString(), visited);                    
+                    }
+                    else if (property.PropertyType.IsInterface)
+                    {
+                        System.Console.WriteLine("IsInterface invoked");
+                        visited.Add(property.PropertyType);
+                        System.Console.WriteLine(property.Name + "::" + property.GetValue(obj, null));
+                        ReadPropertiesRecursive(property.GetValue(obj), result.ToString(), visited);
+                    }
+
+                }
+            }
+            catch (System.Exception)
+            {
+            }
+
         }
     }
 }

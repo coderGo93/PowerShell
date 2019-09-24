@@ -6,9 +6,9 @@ namespace Nutanix.Powershell.ModelCmdlets
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="Disk" /> object.
     /// </summary>
-    [System.Management.Automation.Cmdlet("Connect", @"NTNXServer_UsernamePasswordServerProtocolPortExpanded")]
+    [System.Management.Automation.Cmdlet("Connect", @"Server_UsernamePasswordServerProtocolPortExpanded")]
     [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
-    public class ConnectNTNXServer_UsernamePasswordServerProtocolPortExpanded : System.Management.Automation.PSCmdlet
+    public class ConnectServer_UsernamePasswordServerProtocolPortExpanded : System.Management.Automation.PSCmdlet
     {
 
         private string _server;
@@ -92,8 +92,8 @@ namespace Nutanix.Powershell.ModelCmdlets
             _credential.Protocol = Protocol;
             _credential.Port = Port;
             _credential.Server = Server;
+            _credential.IgnoreSSLErrors = IgnoreSSLErrors;
             SessionState.PSVariable.Set("Global:NTNXConnection", _credential);
-            SessionState.PSVariable.Set("Global:IgnoreSSLErrors", IgnoreSSLErrors);
 
             WriteObject(_credential);
         }

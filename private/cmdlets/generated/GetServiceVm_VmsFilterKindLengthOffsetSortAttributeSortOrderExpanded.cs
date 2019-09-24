@@ -292,7 +292,7 @@ namespace Nutanix.Powershell.Cmdlets
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
 
-                if (SkipSSL.ToBool() || SessionState.PSVariable.GetValue("IgnoreSSLErrors") != null)
+                if (SkipSSL.ToBool() || !NTNXConnection.IgnoreSSLErrors)
                 {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
                 }
