@@ -7,6 +7,7 @@ namespace Nutanix.Powershell.Cmdlets
     [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.IClusterListIntentResponse))]
     public class GetCluster_ClustersFilterKindLengthOffsetSortAttributeSortOrder : System.Management.Automation.PSCmdlet, Microsoft.Rest.ClientRuntime.IEventListener
     {
+        private Nutanix.Powershell.Models.NutanixCredential NTNXConnection = new Nutanix.Powershell.Models.NutanixCredential();
         /// <summary>The <see cref="System.Threading.CancellationTokenSource" /> for this operation.</summary>
         private System.Threading.CancellationTokenSource _cancellationTokenSource = new System.Threading.CancellationTokenSource();
         /// <summary>The reference to the client API class.</summary>
@@ -188,6 +189,7 @@ namespace Nutanix.Powershell.Cmdlets
             ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletProcessRecordStart).Wait(); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
             try
             {
+                NTNXConnection = (Nutanix.Powershell.Models.NutanixCredential)SessionState.PSVariable.GetValue("Global:NTNXConnection");
                 // work
                 if (ShouldProcess($"Call remote 'listClusters' operation"))
                 {
@@ -223,7 +225,7 @@ namespace Nutanix.Powershell.Cmdlets
             using( NoSynchronizationContext )
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                if (SkipSSL.ToBool() || System.Environment.GetEnvironmentVariable("NutanixSkipSSL") != null)
+                if (SkipSSL.ToBool() || !NTNXConnection.IgnoreSSLErrors)
                 {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
                 }
@@ -236,34 +238,14 @@ namespace Nutanix.Powershell.Cmdlets
                 // get the client instance
                 if (Credential == null)
                 {
-
                     if (Port == null)
-                    {
-                        Port = System.Environment.GetEnvironmentVariable("NutanixPort") ?? "9440";
-                    }
-
+                        Port = NTNXConnection.Port ?? "9440";
                     if (Protocol == null)
-                    {
-                        Protocol = System.Environment.GetEnvironmentVariable("NutanixProtocol") ?? "https";
-                    }
-
+                        Protocol = NTNXConnection.Protocol ?? "https";
                     if (Server == null)
-                    {
-                        Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
-                    }
+                        Server = NTNXConnection.Server ?? "localhost";
                     if (PSCredential == null)
-                    {
-                        System.Security.SecureString s = new System.Security.SecureString();
-                        if (System.Environment.GetEnvironmentVariable("NutanixPassword") != null)
-                        {
-
-                            foreach (char item in System.Environment.GetEnvironmentVariable("NutanixPassword"))
-                            {
-                                s.AppendChar(item);
-                            }
-                        }
-                        PSCredential = new PSCredential(System.Environment.GetEnvironmentVariable("NutanixUsername"), s);
-                    }
+                        PSCredential = NTNXConnection.PSCredential;
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";
                     Credential = new Nutanix.Powershell.Models.NutanixCredential(url, PSCredential);

@@ -7,6 +7,7 @@ namespace Nutanix.Powershell.Cmdlets
     [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.IImageListIntentResponse))]
     public class GetImage_ImagesFilterKindLengthOffsetSortAttributeSortOrderExpanded : System.Management.Automation.PSCmdlet, Microsoft.Rest.ClientRuntime.IEventListener
     {
+        private Nutanix.Powershell.Models.NutanixCredential NTNXConnection = new Nutanix.Powershell.Models.NutanixCredential();
         /// <summary>The <see cref="System.Threading.CancellationTokenSource" /> for this operation.</summary>
         private System.Threading.CancellationTokenSource _cancellationTokenSource = new System.Threading.CancellationTokenSource();
         /// <summary>The reference to the client API class.</summary>
@@ -21,7 +22,7 @@ namespace Nutanix.Powershell.Cmdlets
             }
         }
         /// <summary>Backing field for <see cref="GetEntitiesRequestBody" /> property.</summary>
-        private Nutanix.Powershell.Models.IImageListMetadata _getEntitiesRequestBody= new Nutanix.Powershell.Models.ImageListMetadata();
+        private Nutanix.Powershell.Models.IImageListMetadata _getEntitiesRequestBody = new Nutanix.Powershell.Models.ImageListMetadata();
 
         /// <summary>
         /// All api calls that return a list will have this metadata block as input
@@ -38,13 +39,13 @@ namespace Nutanix.Powershell.Cmdlets
             }
         }
         /// <summary>SendAsync Pipeline Steps to be appended to the front of the pipeline</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "SendAsync Pipeline Steps to be appended to the front of the pipeline")]
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "SendAsync Pipeline Steps to be appended to the front of the pipeline")]
         [System.Management.Automation.ValidateNotNull]
-        public Microsoft.Rest.ClientRuntime.SendAsyncStep[] HttpPipelineAppend {get;set;}
+        public Microsoft.Rest.ClientRuntime.SendAsyncStep[] HttpPipelineAppend { get; set; }
         /// <summary>SendAsync Pipeline Steps to be prepended to the front of the pipeline</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "SendAsync Pipeline Steps to be prepended to the front of the pipeline")]
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "SendAsync Pipeline Steps to be prepended to the front of the pipeline")]
         [System.Management.Automation.ValidateNotNull]
-        public Microsoft.Rest.ClientRuntime.SendAsyncStep[] HttpPipelinePrepend {get;set;}
+        public Microsoft.Rest.ClientRuntime.SendAsyncStep[] HttpPipelinePrepend { get; set; }
         /// <summary>The number of records to retrieve relative to the offset</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "The number of records to retrieve relative to the offset")]
         public int Length
@@ -55,7 +56,8 @@ namespace Nutanix.Powershell.Cmdlets
             }
             get
             {
-                if (GetEntitiesRequestBody.Length.HasValue){
+                if (GetEntitiesRequestBody.Length.HasValue)
+                {
                     return GetEntitiesRequestBody.Length.Value;
                 }
                 return 0;
@@ -64,9 +66,9 @@ namespace Nutanix.Powershell.Cmdlets
         /// <summary>
         /// <see cref="IEventListener" /> cancellation delegate. Stops the cmdlet when called.
         /// </summary>
-         System.Action Microsoft.Rest.ClientRuntime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
+        System.Action Microsoft.Rest.ClientRuntime.IEventListener.Cancel => _cancellationTokenSource.Cancel;
         /// <summary><see cref="IEventListener" /> cancellation token.</summary>
-         System.Threading.CancellationToken Microsoft.Rest.ClientRuntime.IEventListener.Token => _cancellationTokenSource.Token;
+        System.Threading.CancellationToken Microsoft.Rest.ClientRuntime.IEventListener.Token => _cancellationTokenSource.Token;
         /// <summary>Offset from the start of the entity list</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "Offset from the start of the entity list")]
         public int Offset
@@ -77,7 +79,8 @@ namespace Nutanix.Powershell.Cmdlets
             }
             get
             {
-                if (GetEntitiesRequestBody.Offset.HasValue){
+                if (GetEntitiesRequestBody.Offset.HasValue)
+                {
                     return GetEntitiesRequestBody.Offset.Value;
                 }
                 return 0;
@@ -86,17 +89,17 @@ namespace Nutanix.Powershell.Cmdlets
         /// <summary>
         /// The instance of the <see cref="Microsoft.Rest.ClientRuntime.HttpPipeline" /> that the remote call will use.
         /// </summary>
-        private Microsoft.Rest.ClientRuntime.HttpPipeline Pipeline {get;set;}
+        private Microsoft.Rest.ClientRuntime.HttpPipeline Pipeline { get; set; }
         /// <summary>The URI for the proxy server to use</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "The URI for the proxy server to use")]
-        public System.Uri Proxy {get;set;}
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "The URI for the proxy server to use")]
+        public System.Uri Proxy { get; set; }
         /// <summary>Credentials for a proxy server to use for the remote call</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Credentials for a proxy server to use for the remote call")]
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Credentials for a proxy server to use for the remote call")]
         [System.Management.Automation.ValidateNotNull]
-        public System.Management.Automation.PSCredential ProxyCredential {get;set;}
+        public System.Management.Automation.PSCredential ProxyCredential { get; set; }
         /// <summary>Use the default credentials for the proxy</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Use the default credentials for the proxy")]
-        public System.Management.Automation.SwitchParameter ProxyUseDefaultCredentials {get;set;}
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Use the default credentials for the proxy")]
+        public System.Management.Automation.SwitchParameter ProxyUseDefaultCredentials { get; set; }
         /// <summary>The attribute to perform sort on</summary>
         /// <summary>Use credentials for login</summary>
         [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "PSCredential for authentication")]
@@ -192,7 +195,7 @@ namespace Nutanix.Powershell.Cmdlets
         internal GetImage_ImagesFilterKindLengthOffsetSortAttributeSortOrderExpanded(Carbon.Json.JsonObject json)
         {
             // deserialize the contents
-            _getEntitiesRequestBody = If( json?.PropertyT<Carbon.Json.JsonObject>("GetEntitiesRequestBody"), out var __jsonGetEntitiesRequestBody) ? Nutanix.Powershell.Models.ImageListMetadata.FromJson(__jsonGetEntitiesRequestBody) : GetEntitiesRequestBody;
+            _getEntitiesRequestBody = If(json?.PropertyT<Carbon.Json.JsonObject>("GetEntitiesRequestBody"), out var __jsonGetEntitiesRequestBody) ? Nutanix.Powershell.Models.ImageListMetadata.FromJson(__jsonGetEntitiesRequestBody) : GetEntitiesRequestBody;
         }
         /// <summary>Handles/Dispatches events during the call to the REST service.</summary>
         /// <param name="id">The message id</param>
@@ -201,42 +204,42 @@ namespace Nutanix.Powershell.Cmdlets
         /// <returns>
         /// A <see cref="System.Threading.Tasks.Task" /> that will be complete when handling of the message is completed.
         /// </returns>
-         async System.Threading.Tasks.Task Microsoft.Rest.ClientRuntime.IEventListener.Signal(string id, System.Threading.CancellationToken token, System.Func<Microsoft.Rest.ClientRuntime.EventData> messageData)
+        async System.Threading.Tasks.Task Microsoft.Rest.ClientRuntime.IEventListener.Signal(string id, System.Threading.CancellationToken token, System.Func<Microsoft.Rest.ClientRuntime.EventData> messageData)
         {
-            using( NoSynchronizationContext )
+            using (NoSynchronizationContext)
             {
                 if (token.IsCancellationRequested)
                 {
-                    return ;
+                    return;
                 }
-                switch ( id )
+                switch (id)
                 {
                     case Microsoft.Rest.ClientRuntime.Events.Verbose:
-                    {
-                        WriteVerbose($"{messageData().Message ?? System.String.Empty}");
-                        return ;
-                    }
+                        {
+                            WriteVerbose($"{messageData().Message ?? System.String.Empty}");
+                            return;
+                        }
                     case Microsoft.Rest.ClientRuntime.Events.Warning:
-                    {
-                        WriteWarning($"{messageData().Message ?? System.String.Empty}");
-                        return ;
-                    }
+                        {
+                            WriteWarning($"{messageData().Message ?? System.String.Empty}");
+                            return;
+                        }
                     case Microsoft.Rest.ClientRuntime.Events.Information:
-                    {
-                        var data = messageData();
-                        WriteInformation(data, new[] { data.Message });
-                        return ;
-                    }
+                        {
+                            var data = messageData();
+                            WriteInformation(data, new[] { data.Message });
+                            return;
+                        }
                     case Microsoft.Rest.ClientRuntime.Events.Debug:
-                    {
-                        WriteDebug($"{messageData().Message ?? System.String.Empty}");
-                        return ;
-                    }
+                        {
+                            WriteDebug($"{messageData().Message ?? System.String.Empty}");
+                            return;
+                        }
                     case Microsoft.Rest.ClientRuntime.Events.Error:
-                    {
-                        WriteError(new System.Management.Automation.ErrorRecord( new System.Exception(messageData().Message), string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null ) );
-                        return ;
-                    }
+                        {
+                            WriteError(new System.Management.Automation.ErrorRecord(new System.Exception(messageData().Message), string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null));
+                            return;
+                        }
                 }
                 WriteDebug($"{id}: {messageData().Message ?? System.String.Empty}");
             }
@@ -245,33 +248,34 @@ namespace Nutanix.Powershell.Cmdlets
 
         protected override void ProcessRecord()
         {
-            ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletProcessRecordStart).Wait(); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+            ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletProcessRecordStart).Wait(); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
             try
             {
+                NTNXConnection = (Nutanix.Powershell.Models.NutanixCredential)SessionState.PSVariable.GetValue("Global:NTNXConnection");
                 // work
                 if (ShouldProcess($"Call remote 'GetImages' operation"))
                 {
-                    using( var asyncCommandRuntime = new Microsoft.Rest.ClientRuntime.PowerShell.AsyncCommandRuntime(this, ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token) )
+                    using (var asyncCommandRuntime = new Microsoft.Rest.ClientRuntime.PowerShell.AsyncCommandRuntime(this, ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token))
                     {
-                        asyncCommandRuntime.Wait( ProcessRecordAsync(),((Microsoft.Rest.ClientRuntime.IEventListener)this).Token);
+                        asyncCommandRuntime.Wait(ProcessRecordAsync(), ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token);
                     }
                 }
             }
-            catch(System.AggregateException aggregateException)
+            catch (System.AggregateException aggregateException)
             {
                 // unroll the inner exceptions to get the root cause
-                foreach( var innerException in aggregateException.Flatten().InnerExceptions )
+                foreach (var innerException in aggregateException.Flatten().InnerExceptions)
                 {
-                    ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletException, $"{innerException.GetType().Name} - {innerException.Message} : {innerException.StackTrace}").Wait(); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+                    ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletException, $"{innerException.GetType().Name} - {innerException.Message} : {innerException.StackTrace}").Wait(); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
                     // Write exception out to error channel.
-                    WriteError( new System.Management.Automation.ErrorRecord(innerException,string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null) );
+                    WriteError(new System.Management.Automation.ErrorRecord(innerException, string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null));
                 }
             }
-            catch(System.Exception exception)
+            catch (System.Exception exception)
             {
-                ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletException, $"{exception.GetType().Name} - {exception.Message} : {exception.StackTrace}").Wait(); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+                ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletException, $"{exception.GetType().Name} - {exception.Message} : {exception.StackTrace}").Wait(); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
                 // Write exception out to error channel.
-                WriteError( new System.Management.Automation.ErrorRecord(exception,string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null) );
+                WriteError(new System.Management.Automation.ErrorRecord(exception, string.Empty, System.Management.Automation.ErrorCategory.NotSpecified, null));
             }
         }
         /// <summary>Performs execution of the command, working asynchronously if required.</summary>
@@ -281,10 +285,10 @@ namespace Nutanix.Powershell.Cmdlets
         protected async System.Threading.Tasks.Task ProcessRecordAsync()
         {
             _getEntitiesRequestBody.Kind = "subnet";
-            using( NoSynchronizationContext )
+            using (NoSynchronizationContext)
             {
-                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                if (SkipSSL.ToBool() || System.Environment.GetEnvironmentVariable("NutanixSkipSSL") != null)
+                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
+                if (SkipSSL.ToBool() || !NTNXConnection.IgnoreSSLErrors)
                 {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
                 }
@@ -297,45 +301,28 @@ namespace Nutanix.Powershell.Cmdlets
                 // get the client instance
                 if (Credential == null)
                 {
-
                     if (Port == null)
-                    {
-                        Port = System.Environment.GetEnvironmentVariable("NutanixPort") ?? "9440";
-                    }
-
+                        Port = NTNXConnection.Port ?? "9440";
                     if (Protocol == null)
-                    {
-                        Protocol = System.Environment.GetEnvironmentVariable("NutanixProtocol") ?? "https";
-                    }
-
+                        Protocol = NTNXConnection.Protocol ?? "https";
                     if (Server == null)
-                    {
-                        Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
-                    }
+                        Server = NTNXConnection.Server ?? "localhost";
                     if (PSCredential == null)
-                    {
-                        System.Security.SecureString s = new System.Security.SecureString();
-                        if (System.Environment.GetEnvironmentVariable("NutanixPassword") != null)
-                        {
-
-                            foreach (char item in System.Environment.GetEnvironmentVariable("NutanixPassword"))
-                            {
-                                s.AppendChar(item);
-                            }
-                        }
-                        PSCredential = new PSCredential(System.Environment.GetEnvironmentVariable("NutanixUsername"), s);
-                    }
+                        PSCredential = NTNXConnection.PSCredential;
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";
                     Credential = new Nutanix.Powershell.Models.NutanixCredential(url, PSCredential);
                 }
-                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                if (Length == 0 && Offset == 0) {
+                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
+                if (Length == 0 && Offset == 0)
+                {
                     await this.Client.ListAllImages(GetEntitiesRequestBody, onOKList, onDefault, this, Pipeline, Credential);
-                } else {
+                }
+                else
+                {
                     await this.Client.GetImages(GetEntitiesRequestBody, onOK, onDefault, this, Pipeline, Credential);
                 }
-                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletAfterAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
+                await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletAfterAPICall); if (((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested) { return; }
             }
         }
         /// <summary>Interrupts currently running code within the command.</summary>
@@ -359,7 +346,7 @@ namespace Nutanix.Powershell.Cmdlets
         {
             // serialization method
             container = container ?? new Carbon.Json.JsonObject();
-            AddIf( null != GetEntitiesRequestBody ? (Carbon.Json.JsonNode) GetEntitiesRequestBody.ToJson(null) : null, "GetEntitiesRequestBody" ,container.Add );
+            AddIf(null != GetEntitiesRequestBody ? (Carbon.Json.JsonNode)GetEntitiesRequestBody.ToJson(null) : null, "GetEntitiesRequestBody", container.Add);
             return container;
         }
         /// <summary>
@@ -372,10 +359,10 @@ namespace Nutanix.Powershell.Cmdlets
         /// </returns>
         private async System.Threading.Tasks.Task onDefault(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IImageStatus> response)
         {
-            using( NoSynchronizationContext )
+            using (NoSynchronizationContext)
             {
                 // Error Response : default
-                WriteError(new System.Management.Automation.ErrorRecord(new System.Exception($"The service encountered an unexpected result: {responseMessage.StatusCode}"), responseMessage.StatusCode.ToString(), System.Management.Automation.ErrorCategory.InvalidOperation, new { GetEntitiesRequestBody}));
+                WriteError(new System.Management.Automation.ErrorRecord(new System.Exception($"The service encountered an unexpected result: {responseMessage.StatusCode}"), responseMessage.StatusCode.ToString(), System.Management.Automation.ErrorCategory.InvalidOperation, new { GetEntitiesRequestBody }));
             }
         }
         /// <summary>a delegate that is called when the remote service returns 200 (OK).</summary>
@@ -387,16 +374,16 @@ namespace Nutanix.Powershell.Cmdlets
         /// </returns>
         private async System.Threading.Tasks.Task onOK(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IImageListIntentResponse> response)
         {
-            using( NoSynchronizationContext )
+            using (NoSynchronizationContext)
             {
                 // onOK - response for 200 / application/json
                 // (await response) // should be Nutanix.Powershell.Models.IImageListIntentResponse
                 WriteObject(await response);
             }
         }
-         private async System.Threading.Tasks.Task onOKList(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IImageIntentResource[]> response)
+        private async System.Threading.Tasks.Task onOKList(System.Net.Http.HttpResponseMessage responseMessage, System.Threading.Tasks.Task<Nutanix.Powershell.Models.IImageIntentResource[]> response)
         {
-            using( NoSynchronizationContext )
+            using (NoSynchronizationContext)
             {
                 // onOK - response for 200 / application/json
                 // (await response) // should be Nutanix.Powershell.Models.IImageListIntentResponse

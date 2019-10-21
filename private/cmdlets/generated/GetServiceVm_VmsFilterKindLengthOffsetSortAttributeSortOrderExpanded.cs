@@ -305,24 +305,13 @@ namespace Nutanix.Powershell.Cmdlets
                 if (Credential == null)
                 {
                     if (Port == null)
-                    {
                         Port = NTNXConnection.Port ?? "9440";
-                    }
-
                     if (Protocol == null)
-                    {
                         Protocol = NTNXConnection.Protocol ?? "https";
-                    }
-
                     if (Server == null)
-                    {
                         Server = NTNXConnection.Server ?? "localhost";
-                    }
                     if (PSCredential == null)
-                    {
                         PSCredential = NTNXConnection.PSCredential;
-                    }
-
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";
                     Credential = new Nutanix.Powershell.Models.NutanixCredential(url, PSCredential);
